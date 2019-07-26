@@ -1,0 +1,97 @@
+{% extends "layout.html" %}
+{% load crispy_forms_tags %}
+
+
+
+
+
+
+
+{% block body %}
+<!-- Post Content Column -->
+<div class="row">
+    <div class="col-md-8 offset-md-2 mb-5">
+
+        <!-- Title -->
+        <h3 class="mt-4">{{post.title}}</h3>
+
+        <!-- Author -->
+        <small>
+
+            {{post.author.username}} Tarafından {{post.created_date}} Tarihinde Oluşturuldu
+        </small>
+
+        
+
+        
+
+
+
+
+        <hr>
+
+        <!-- Post Content -->
+        <p class="lead mb-5">{{post.content|safe}}
+
+
+        </p>
+        <hr>
+        <!--Comment -->
+
+
+    </div>
+</div>
+<div class="col-md-8 offset-md-2">
+    <div class="comment-wrapper">
+        <div class="panel panel-info">
+            
+            <div class="panel-body">
+                <form action="{% url 'post:comment' post.id %}" method="POST">
+                    {% csrf_token %}
+                <textarea class="form-control" placeholder="Yorum Ekle" rows="3" name="comment_content"></textarea>
+                <br>
+                <button type="submit" class="btn btn-info pull-right">Gönder</button>
+                <div class="clearfix"></div>
+                <hr>
+                </form>
+                {% if comments %}
+                {% for comment in comments  %}
+                <ul class="media-list">
+                        <li class="media">
+                            <a class="pull-left">
+                                <img src="https://bootdey.com/img/Content/user_1.jpg" class="img-circle rounded-circle">
+                            </a>
+                            <div class="media-body">
+                                <span class="text-muted pull-right">
+                                    <small class="text-muted">{{comment.comment_date}}</small>
+                                </span>
+                                
+                                <p>
+                                    {{comment.comment_content}}
+                                </p>
+                            </div>
+                        </li>
+    
+                    </ul>
+                  
+                {% endfor %}
+                  
+                {% else %}
+                <div class="alert alert-primary">Henüz Yorum Bulunmamaktadır</div>
+                {% endif %}
+                
+                
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+{% endblock body %}

@@ -1,0 +1,72 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<h3 class="text-center">Gönderilerim</h3>
+<hr>
+{% if posts %}
+{% for post in posts  %}
+  
+
+
+    <div class="row mb-5">
+        <div class="col-md-8 offset-md-2 ">
+            <div class="card " style="padding-bottom:0px">
+
+
+                <div class="card-body mt-0 mb-0" style="padding-top:0px;">
+                    <div class="row mb-2">
+                        <div class="col-md-4 ml-auto  text-right">
+                            
+                                    
+
+                                    <div class="dropdown">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                          
+                                        </a>
+                                      
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                            <a class="dropdown-item" href="{% url 'post:delete' post.id %}">Sil</a>
+                                    <a class="dropdown-item" href="{% url 'post:update' post.id %}">Güncelle</a>
+                                          
+                                          
+                                        </div>
+                                      </div>
+
+
+
+                        </div>
+                    </div>
+                    <!--Row 1 bitiş -->
+                    <div class="row ">
+
+                        <p class="card-text " style="padding-left:10px;padding-right:8px">
+                        
+                            <em>{{post.title}} </em>
+                            <br>
+
+                            {{post.content}}</p>
+                    </div>
+                    <!-- Row 2 Bitiş -->
+
+                </div>
+                <div class="card-footer justify-content-between d-flex">
+                    <span><i class="far fa-thumbs-up mr-5 "></i>
+                        <a href="{% url 'post:detail' post.id %}">  <i class="far fa-comment"></i> </a>   {{post.comment_number}}</span>
+                    
+                    <span class="">{{post.to_city}} &nbsp &nbsp &nbsp {{post.created_date}} </span>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    {% endfor %}
+
+{%else %}
+<div class="alert alert-danger">Hiç Gönderiniz Bulunmamaktadır</div>
+{% endif %}
+
+
+
+{% endblock body %}

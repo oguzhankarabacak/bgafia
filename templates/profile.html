@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<div class="container">
+    <div class="row " style="">
+        <div class="col-md-8 offset-md-2 text-center">
+            <h3>Profil</h3>
+            <hr>
+            <ul style="list-style-type:none;">
+            <li>Username : {{username}}</li>
+            <li>Ad Soyad: {{first_name}} {{last_name}}</li>
+            <li>Email : {{email}}</li>
+            <li><span>Doğum Tarihi : {{birthday}} </span></li>
+
+        </ul>
+        </div>
+</div>
+</div>
+{% endblock body %}

@@ -1,14 +1,16 @@
 from django.shortcuts import render,redirect
-from .forms import RegisterForm
+from .forms import RegisterForm,LoginForm
 from requests import get,request
 from django.contrib.auth.models import User
 from .models import UserData
-from django.contrib.auth import login,authenticate
+from django.contrib.auth import login,authenticate,logout
+from django.contrib import messages
 
 
 
 # Create your views here.
 
+#<--- ip işlemleri --> 
 
 def get_ip_address():
     ip = get('https://api.ipify.org').text
@@ -19,6 +21,8 @@ def get_ip_address():
     print(data.get("country"))
     datas={"ip":ip,"city":data.get("city"),"country":data.get("country")}
     return datas
+
+#<--- register işlemleri --> 
 
 def register(request):
     form=RegisterForm(request.POST or None)
@@ -58,6 +62,7 @@ def register(request):
         newUserData.user=newUser
         newUserData.save()
         login(request,newUser)
+        messages.success(request,"Kayıt Başarıyla Tamamlandı")
         return redirect("index")
     context={"form":form}
     return render(request,"register.html",context)
@@ -65,8 +70,48 @@ def register(request):
     context={"form":form}
     return render(request,"register.html",context)
 
-def logoutUser(request):
-    pass
+
+#<--- login işlemleri --> 
 
 def loginUser(request):
-    return render(request,"login.html")
+    form=LoginForm(request.POST or None)
+    print("*******************************************")
+    print(form)
+    print("****************************************")
+
+    context={"form":form}
+
+    if form.is_valid():
+        username=form.cleaned_data.get("username")
+        password=form.cleaned_data.get("password")
+        print("*******************************************")
+        print(username,password)
+        print("****************************************")
+
+        user=authenticate(username=username,password=password)
+        if user is None:
+            messages.info(request,"Kullanıcı Adı veya Parola Hatalı")
+            return render(request,"login.html",context)
+
+        messages.success(request,"başarı ile giriş yaptınız")
+        login(request,user)
+
+        return redirect("index")
+
+    return render(request,"login.html",context)    
+
+#<--- logout işlemleri --> 
+def logoutUser(request):
+    logout(request)
+    messages.warning(request,"Başarıyla Çıkış Yaptınız")
+    return redirect("index")
+
+
+#<---Profile Yönlendir --->
+def profile(request):
+    current_user=request.user  #user=username
+    default_user=User.objects.get(username=current_user)
+    
+    profile_info={"username":default_user.username,"first_name":default_user.first_name
+    ,"last_name":default_user.last_name,"email":default_user.email,"birthday":default_user.userdata.birthday}   
+    return render(request,"profile.html",profile_info)

@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+{% if posts %}
+<div class="col-lg-8">
+    <div class="col-md-10 offset-md-3">
+      <h3 class="text-center">Gönderiler</h3>
+      <hr>
+  
+     
+    </div>
+  </div>
+{% for post in posts  %}
+  
+
+
+    <div class="row mb-5">
+        <div class="col-md-8 offset-md-2 ">
+            <div class="card " style="padding-bottom:0px">
+
+
+                <div class="card-body mt-0 mb-0" style="padding-top:0px;">
+                    <div class="row mb-2">
+                        <div class="col-md-4 ml-auto  text-right">
+                           
+
+
+
+
+                        </div>
+                    </div>
+                    <!--Row 1 bitiş -->
+                    <div class="row ">
+
+                        <p class="card-text " style="padding-left:10px;padding-right:8px">
+                        
+
+                            {{post.title}}
+                            <br>
+                            {{post.content}}</p>
+                    </div>
+                    <!-- Row 2 Bitiş -->
+
+                </div>
+                <div class="card-footer justify-content-between d-flex">
+                    <span><i class="far fa-thumbs-up mr-5 "></i>
+                        <a href="{% url 'post:detail' post.id %}">  <i class="far fa-comment"></i></a>  {{post.comment_number}}</span>
+                    
+                    <span class=""> {{post.created_date}} </span>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    {% endfor %}
+
+{%else %}
+<div class="alert alert-danger">Şehrinize Ait Hiç Gönderi Bulunmamaktadır</div>
+{% endif %}
+  
+{% endblock body %}

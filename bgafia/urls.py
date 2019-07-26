@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from post.views import index,about
+from auths.views import profile
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -23,5 +24,6 @@ urlpatterns = [
     path('about/',about,name="about"),
     path('post/',include("post.urls")),
     path('user/',include("auths.urls")),
+    path('profile/',profile,name="profile")
     
 ]

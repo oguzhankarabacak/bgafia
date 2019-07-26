@@ -1,15 +1,23 @@
 {% extends "layout.html" %}
+{% load crispy_forms_tags %}
 
 
 {% block body %}
+<div class="col-md-5 offset-md-3">
   <h3>Kayıt Ol</h3>
   <hr>
   <form method="POST">
     {% csrf_token %}
+   
     
-    {{form.as_p}}
+    {{form|crispy}}
+    <!-- <input id="datepicker" width="276" /> -->
+  
     <br>
     <button type="submit" class="btn btn-danger">Giriş Yap</button>
+    
 
 </form>
+</div>
+  
 {% endblock body %}
